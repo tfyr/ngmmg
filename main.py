@@ -1,6 +1,11 @@
+import argparse
 from aiohttp import web
 
 from bot import parse_mmg_bot_msg
+
+parser = argparse.ArgumentParser(description="aiohttp server example")
+parser.add_argument('--path')
+parser.add_argument('--port')
 
 
 async def handle(request):
@@ -11,10 +16,10 @@ async def handle(request):
 
     return web.Response(text="{}", content_type="application/json ")
 
-app = web.Application()
-app.add_routes([web.get('/ngmmg-bot', handle),
-                # web.get('/{name}', handle),
-                ])
-
 if __name__ == '__main__':
-    web.run_app(app)
+    app = web.Application()
+    app.add_routes([web.get('/ngmmg-bot', handle),
+                    # web.get('/{name}', handle),
+                    ])
+    args = parser.parse_args()
+    web.run_app(app, path=args.path, port=args.port)
