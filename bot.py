@@ -3,6 +3,7 @@ import json
 import MySQLdb
 from MySQLdb import IntegrityError
 
+from security import mysql_pswd
 from telegram import send_mess
 
 
@@ -21,7 +22,7 @@ def get_name(msg):
 def mydb(debug):
     return MySQLdb.connect(host="127.0.0.1" if debug else "localhost",  # your host, usually localhost
                            user="chatbot_mmg",  # your username
-                           passwd="",  # your password
+                           passwd=mysql_pswd,  # your password
                            port=3333,  # $ ssh -L 3333:127.0.0.1:3306 vds -N
                            db="chatbot_mmg")
 
