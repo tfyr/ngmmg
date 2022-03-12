@@ -1,4 +1,5 @@
 import json
+import logging
 
 import MySQLdb
 from MySQLdb import IntegrityError
@@ -46,6 +47,7 @@ telegram_bot_url_mmg = "https://api.telegram.org/bot5084712772:AAFXVoCWYNeeHxMmG
 
 def init_user(cursor, id):
     try:
+        logging.info("def init_user(cursor, id): id={}".format(id))
         cursor.execute('insert into user (id, current_value) values (%(id)s, %(init_balance)s)',
                        {'id': id, 'init_balance': init_balance, })
     except IntegrityError:

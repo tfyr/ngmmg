@@ -1,5 +1,6 @@
 import argparse
 from aiohttp import web
+import logging
 
 from bot import parse_mmg_bot_msg
 
@@ -22,4 +23,5 @@ if __name__ == '__main__':
                     # web.get('/{name}', handle),
                     ])
     args = parser.parse_args()
-    web.run_app(app, path=args.path, port=args.port)
+    logging.basicConfig(level=logging.DEBUG)
+    web.run_app(app, path=args.path, port=args.port, )
