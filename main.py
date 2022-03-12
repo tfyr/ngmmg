@@ -23,5 +23,5 @@ if __name__ == '__main__':
                     # web.get('/{name}', handle),
                     ])
     args = parser.parse_args()
-    logging.basicConfig(level=logging.DEBUG)
+    # logging.basicConfig(level=logging.DEBUG)
     web.run_app(app, path=args.path, port=args.port, )
