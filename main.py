@@ -17,7 +17,7 @@ async def handle(request):
 
 if __name__ == '__main__':
     app = web.Application()
-    app.add_routes([web.get('/ngmmg-bot', handle),
+    app.add_routes([web.post('/ngmmg-bot', handle),
                     # web.get('/{name}', handle),
                     ])
     args = parser.parse_args()
