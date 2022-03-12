@@ -10,8 +10,7 @@ parser.add_argument('--port')
 
 async def handle(request):
     #name = request.match_info.get('name', "Anonymous")
-    text = "Hello"
-    parse_mmg_bot_msg(request.text(), debug=False)
+    parse_mmg_bot_msg(request.body.decode('utf-8'), debug=False)
     # msg = json.loads(request.body.decode('utf-8'))
 
     return web.Response(text="{}", content_type="application/json ")
