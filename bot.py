@@ -4,7 +4,7 @@ import logging
 import MySQLdb
 from MySQLdb import IntegrityError
 
-from security import mysql_pswd
+from security import mysql_pswd, telegram_bot_url_mmg
 from telegram import send_mess
 
 
@@ -40,7 +40,7 @@ action_plus = 1
 action_msg = 0
 mmg_chat_id = -1001125974900
 test_chat_id = -534237299
-telegram_bot_url_mmg = "https://api.telegram.org/bot5084712772:AAFXVoCWYNeeHxMmG0XHnD-ta0oBYYooL3c/"
+
 
 # curl https://api.telegram.org/bot5084712772:AAFXVoCWYNeeHxMmG0XHnD-ta0oBYYooL3c/setWebhook?url=https://ngmmg.9733.ru/ngmmg-bot
 
