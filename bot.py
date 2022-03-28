@@ -109,9 +109,6 @@ def parse_mmg_bot_msg(request_body, debug=True):
                                                    {'id': from_id, 'transfer_amount': transfer_amount,})
                                     cursor.execute('update user set `last`=now(), current_value=current_value + %(transfer_amount)s where id=%(id)s',
                                                    {'id': rtm_from_id, 'transfer_amount': transfer_amount,})
-                                    cursor.execute('insert into tran (frm, too, value) values (%(frm)s, %(too)s, %(transfer_amount)s)',
-                                                   {'frm': from_id, 'too': rtm_from_id,'transfer_amount': transfer_amount, })
-
                                 value = transfer_amount
                                 tg_msg = "{} перевел {} {} хуекоинов".format(from_username, rtm_from_username, value)
                                 send_mess(test_chat_id if debug else msg['chat']['id'], tg_msg,
@@ -121,5 +118,10 @@ def parse_mmg_bot_msg(request_body, debug=True):
                 if not finish and msg['chat']['id'] == mmg_chat_id:
                     cursor.execute('''insert into `plus` (`from`, `to`, action, `value`, `text`) values (%(from)s, %(to)s, %(action)s, %(value)s, %(text)s)''',
                                {'from': from_id, 'to': rtm_from_id, 'action': action_msg, 'value': value, 'text': text})
+                    if value:
+                        plus_id = cursor.lastrowid
+                        cursor.execute('insert into tran (plus_id, frm, too, value) values (%(plus_id)s, %(frm)s, %(too)s, %(transfer_amount)s)',
+                                       {'plus_id': plus_id, 'frm': from_id, 'too': rtm_from_id, 'transfer_amount': value, })
+
             db.commit()
             db.close()
