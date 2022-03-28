@@ -29,7 +29,9 @@ def mydb(debug):
 
 
 def get_balance(cursor, from_id):
-    cursor.execute('select current_value from user where id=%(id)s', {'id': from_id})
+    cursor.execute('''select coalesce((select sum(value) from tran where too=u.id), 0) - 
+                             coalesce((select sum(value) from tran where frm=u.id), 0) 
+                        from `user` u where id=%(id)s''', {'id': from_id})
     value, = cursor.fetchone() or (None,)
     return value
 
