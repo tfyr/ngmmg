@@ -50,6 +50,8 @@ def init_user(cursor, id):
         # logging.info("def init_user(cursor, id): id={}".format(id))
         cursor.execute('insert into user (id, current_value) values (%(id)s, %(init_balance)s)',
                        {'id': id, 'init_balance': init_balance, })
+        cursor.execute('insert into tran (too, value) values (%(id)s, %(init_balance)s)',
+                       {'id': id, 'init_balance': init_balance, })
     except IntegrityError:
         pass
 
@@ -107,6 +109,9 @@ def parse_mmg_bot_msg(request_body, debug=True):
                                                    {'id': from_id, 'transfer_amount': transfer_amount,})
                                     cursor.execute('update user set `last`=now(), current_value=current_value + %(transfer_amount)s where id=%(id)s',
                                                    {'id': rtm_from_id, 'transfer_amount': transfer_amount,})
+                                    cursor.execute('insert into tran (frm, too, value) values (%(frm)s, %(too)s, %(transfer_amount)s)',
+                                                   {'frm': from_id, 'too': rtm_from_id,'transfer_amount': transfer_amount, })
+
                                 value = transfer_amount
                                 tg_msg = "{} перевел {} {} хуекоинов".format(from_username, rtm_from_username, value)
                                 send_mess(test_chat_id if debug else msg['chat']['id'], tg_msg,
