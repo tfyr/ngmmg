@@ -60,9 +60,10 @@ def test_get_balance():
 
 
 def test_send_msg():
-    ret = send_mess(test_chat_id, "test",
-              url=telegram_bot_url_mmg,
-              reply_markup=None
+    ret = send_mess(test_chat_id, "<span class=\"tg-spoiler\">спойлер <s>Х</s></span>",
+                    url=telegram_bot_url_mmg,
+                    reply_markup=None,
+                    parse_mode="HTML",
               )
     assert ret is not None and ret.status_code == 200
 #def test_always_fails():

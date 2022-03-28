@@ -84,10 +84,11 @@ def parse_mmg_bot_msg(request_body, debug=True):
                                 if blnc is None:
                                     blnc = init_balance
                                 send_mess(msg['chat']['id'],
-                                          "Баланс хуекоинов: {}".format(blnc),
+                                          "<span class=\"tg-spoiler\">Баланс: {} <s>Х</s></span>".format(blnc),
                                           url=telegram_bot_url_mmg,
-                                          reply_markup=None
-                                          )
+                                          reply_markup=None,
+                                          parse_mode = "HTML",
+                                )
                                 finish = True
 
                 if not finish and 'reply_to_message' in msg:
