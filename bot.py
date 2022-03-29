@@ -88,7 +88,7 @@ def parse_mmg_bot_msg(request_body, debug=True):
                                 if blnc is None:
                                     blnc = init_balance
                                 send_mess(msg['chat']['id'],
-                                          "<span class=\"tg-spoiler\">Баланс: {} <s>Х</s></span>".format(blnc),
+                                          "<span class=\"tg-spoiler\">Баланс: {.2f} <s>Х</s></span>".format(blnc),
                                           url=telegram_bot_url_mmg,
                                           reply_markup=None,
                                           parse_mode = "HTML",
