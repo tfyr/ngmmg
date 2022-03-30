@@ -1,0 +1,8 @@
+host='vds'
+path='/home/nash/ngmmg'
+
+[deploy]
+git checkout master
+git pull
+kill -HUP $(ps aux | grep '[p]ython.*ngmmg' | awk '{print $2}')
+chmod 777 /tmp/ngmmg_*.sock;
