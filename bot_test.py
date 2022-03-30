@@ -37,6 +37,7 @@ test_msg_json = json.loads(test_msg)
 
 nash_id = 448010439
 
+
 def test_get_name():
     id, name, = get_name(test_msg_json['message']['from'])
     assert id == nash_id and name == 'Nail'

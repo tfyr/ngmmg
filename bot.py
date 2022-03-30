@@ -50,8 +50,8 @@ test_chat_id = -534237299
 def init_user(cursor, id):
     try:
         # logging.info("def init_user(cursor, id): id={}".format(id))
-        cursor.execute('insert into user (id, current_value) values (%(id)s, %(init_balance)s)',
-                       {'id': id, 'init_balance': init_balance, })
+        cursor.execute('insert into user (id) values (%(id)s)',
+                       {'id': id, })
         cursor.execute('insert into tran (too, value) values (%(id)s, %(init_balance)s)',
                        {'id': id, 'init_balance': init_balance, })
     except IntegrityError:
@@ -107,16 +107,12 @@ def parse_mmg_bot_msg(request_body, debug=True):
                             balance = get_balance(cursor, from_id)
                             if balance is None or balance >= transfer_amount:
                                 if msg['chat']['id'] == mmg_chat_id:
-                                    cursor.execute('update user set `last`=now(), current_value=current_value - %(transfer_amount)s where id=%(id)s',
-                                                   {'id': from_id, 'transfer_amount': transfer_amount,})
-                                    cursor.execute('update user set `last`=now(), current_value=current_value + %(transfer_amount)s where id=%(id)s',
-                                                   {'id': rtm_from_id, 'transfer_amount': transfer_amount,})
-                                value = transfer_amount
-                                tg_msg = "{} перевел {} {} хуекоинов".format(from_username, rtm_from_username, value)
-                                send_mess(test_chat_id if debug else msg['chat']['id'], tg_msg,
-                                          url=telegram_bot_url_mmg,
-                                          reply_markup=None
-                                          )
+                                    value = transfer_amount
+                                    tg_msg = "{} перевел {} {} хуекоинов".format(from_username, rtm_from_username, value)
+                                    send_mess(test_chat_id if debug else msg['chat']['id'], tg_msg,
+                                              url=telegram_bot_url_mmg,
+                                              reply_markup=None
+                                              )
                 if not finish and msg['chat']['id'] == mmg_chat_id:
                     cursor.execute('''insert into `plus` (`from`, `to`, action, `value`, `text`) values (%(from)s, %(to)s, %(action)s, %(value)s, %(text)s)''',
                                {'from': from_id, 'to': rtm_from_id, 'action': action_msg, 'value': value, 'text': text})
