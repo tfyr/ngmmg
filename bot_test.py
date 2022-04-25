@@ -69,3 +69,22 @@ def test_send_msg():
     assert ret is not None and ret.status_code == 200
 #def test_always_fails():
 #    assert False
+
+def test_graph():
+    db = mydb(debug=True)
+    assert db is not None
+    nodes = list()
+    links = list()
+    with db.cursor() as cursor:
+        cursor.execute('''select id from user''', )
+        for id, in cursor.fetchall():
+            grp = int(id) % 10
+            nodes.append({"id": id, "group": grp})
+        cursor.execute('''select frm,too,count(id), sum(value) 
+                            from tran where frm is not null
+                           group by frm,too''', )
+        for frm, too, cnt, summ in cursor.fetchall():
+            links.append({"source": frm, "target": too, "value": cnt})
+        with open('result.json', 'w') as fp:
+            json.dump({'nodes': nodes, 'links': links}, fp)
+    db.close()
