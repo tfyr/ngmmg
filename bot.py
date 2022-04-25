@@ -114,7 +114,7 @@ def parse_mmg_bot_msg(request_body, debug=True):
                                               reply_markup=None
                                               )
                 if not finish and msg['chat']['id'] == mmg_chat_id:
-                    cursor.execute('''insert into `plus` (`from`, `to`, action, `value`, `text`) values (%(from)s, %(to)s, %(action)s, %(value)s, %(text)s, %(from_username)s)''',
+                    cursor.execute('''insert into `plus` (`from`, `to`, action, `value`, `text`, `from_username`) values (%(from)s, %(to)s, %(action)s, %(value)s, %(text)s, %(from_username)s)''',
                                {'from': from_id, 'to': rtm_from_id, 'action': action_msg, 'value': value, 'text': text, 'from_username': from_username})
                     if value:
                         plus_id = cursor.lastrowid

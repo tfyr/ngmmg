@@ -76,10 +76,12 @@ def test_graph():
     nodes = list()
     links = list()
     with db.cursor() as cursor:
-        cursor.execute('''select id from user''', )
-        for id, in cursor.fetchall():
+        cursor.execute('''select distinct u.id, p.from_username 
+                            from user u 
+                            left join `plus` p on from_username is not null and p.`from`= u.id ''', )
+        for id, from_username, in cursor.fetchall():
             grp = int(id) % 10
-            nodes.append({"id": id, "group": grp})
+            nodes.append({"id": id, "group": grp, "username": from_username})
         cursor.execute('''select frm,too,count(id), sum(value) 
                             from tran where frm is not null
                            group by frm,too''', )
