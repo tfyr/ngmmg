@@ -76,17 +76,19 @@ def test_graph():
     nodes = list()
     links = list()
     with db.cursor() as cursor:
-        cursor.execute('''select distinct u.id, p.from_username 
+        cursor.execute('''select distinct u.id, p.from_username, coalesce((select sum(value) from tran where too=u.id), 0) - 
+                             coalesce((select sum(value) from tran where frm=u.id), 0) 
                             from user u 
-                            left join `plus` p on from_username is not null and p.`from`= u.id ''', )
-        for id, from_username, in cursor.fetchall():
+                            left join `plus` p on from_username is not null and p.`from`= u.id 
+                           order by 3''', )
+        for id, from_username, balance, in cursor.fetchall():
             grp = int(id) % 10
-            nodes.append({"id": id, "group": grp, "username": from_username})
+            nodes.append({"id": id, "group": grp, "username": from_username, "balance": int(balance)})
         cursor.execute('''select frm,too,count(id), sum(value) 
                             from tran where frm is not null
                            group by frm,too''', )
         for frm, too, cnt, summ in cursor.fetchall():
             links.append({"source": frm, "target": too, "value": cnt})
         with open('result.json', 'w') as fp:
-            json.dump({'nodes': nodes, 'links': links}, fp)
+            json.dump({'nodes': nodes, 'links': links}, fp, indent=4)
     db.close()
