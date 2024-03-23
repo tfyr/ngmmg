@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ngmmg h-coin transactions force-graph</title>
+    <script src="./main.js" type="module"></script>
+    <style>
+        .link {
+            stroke: #ccc;
+        }
+
+        text {
+            pointer-events: none;
+            user-select: none;
+            font: 14px sans-serif;
+            color: rgb(18, 0, 99);
+        }   
+        body{
+            padding: 0;
+            margin: 0;
+        }     
+    </style>
+</head>
+<body>
+    <!--svg >
+        <defs>
+          <marker id='head' orient="auto"
+            markerWidth='6' markerHeight='3'
+            refX='0.1' refY='1.5'>
+            <path d='M0,0 V3 L6,1.5 Z' fill="black"/>
+          </marker>
+        </defs>
+        <path
+            id='arrow-line'
+            marker-end='url(#head)'
+            stroke-width='4'
+            fill='none' stroke='black'
+            d='M0,80, 80 80,80'
+        />
+    </svg-->
+    <div id="graph"></div>
+</body>
+</html>
